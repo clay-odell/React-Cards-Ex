@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import {v1 as uuid} from "uuid";
-import axios from "axios";
-import {useAxios} from './hooks';
+import React from "react";
+import { useAxios } from './hooks';
 import PokemonSelect from "./PokemonSelect";
 import PokemonCard from "./PokemonCard";
 import "./PokeDex.css";
@@ -11,10 +9,13 @@ import "./PokeDex.css";
  * or from a dropdown of available pokemon. */
 function PokeDex() {
   const [pokemon, addPokemon] = useAxios(`https://pokeapi.co/api/v2/pokemon/`);
+  
   const addNewPokemon = async name => {
-    await addPokemon(`${name}`);
-    pokemon[pokemon.length - 1].id = uuid();
+    console.log(`Adding new Pokemon: ${name}`);
+    await addPokemon(`https://pokeapi.co/api/v2/pokemon/${name}`);
   };
+  
+
   return (
     <div className="PokeDex">
       <div className="PokeDex-buttons">
@@ -23,16 +24,18 @@ function PokeDex() {
       </div>
       <div className="PokeDex-card-area">
         {pokemon.map(cardData => (
-          <PokemonCard
-            key={cardData.id}
-            front={cardData.sprites.front_default}
-            back={cardData.sprites.back_default}
-            name={cardData.name}
-            stats={cardData.stats.map(stat => ({
-              value: stat.base_stat,
-              name: stat.stat.name
-            }))}
-          />
+          cardData.sprites && cardData.sprites.front_default ? (
+            <PokemonCard
+              key={cardData.id}
+              front={cardData.sprites.front_default}
+              back={cardData.sprites.back_default}
+              name={cardData.name}
+              stats={cardData.stats.map(stat => ({
+                value: stat.base_stat,
+                name: stat.stat.name
+              }))}
+            />
+          ) : null
         ))}
       </div>
     </div>
