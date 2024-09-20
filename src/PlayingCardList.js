@@ -9,9 +9,8 @@ function CardTable() {
   const [cards, addCard] = useAxios("https://deckofcardsapi.com/api/deck/new/draw/");
   
   const addNewCard = async () => {
-    const url = "https://deckofcardsapi.com/api/deck/new/draw/";
-    console.log(`Fetching URL: ${url}`);
-    await addCard(url);
+    
+    await addCard();
   };
 
   return (
