@@ -8,5 +8,14 @@ function useFlip () {
     return [isFacingUp, flipCard];
 }
 
+function useAxios (url) {
+    const [data, setData] = useState([]);
+    
+    const addData = async () => {
+        const response = await axios.get(url);
+        setData(data => [...data, response.data]);
+    };
+    return [data, addData];
+}
 
-export default useFlip;
+export default {useFlip, useAxios};
